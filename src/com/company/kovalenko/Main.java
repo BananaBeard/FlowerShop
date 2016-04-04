@@ -2,26 +2,16 @@ package com.company.kovalenko;
 
 import java.io.*;
 import java.util.*;
-import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        Random rnd = new Random(System.currentTimeMillis());
         Scanner sc = new Scanner(System.in);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        ArrayList<String[]> shopStock = new ArrayList<>();
-
         Shop shop = new Shop();
         boolean exit = false;
-
-        for (String s: getData()) {
-            shopStock.add(s.split(" "));
-        }
-
-        shop.flowers.addAll(stockToShop(shopStock));
 
         while(!exit) {
 
@@ -70,8 +60,6 @@ public class Main {
                 default:
                     System.out.println("Wrong choice. Try again, please.");
                     break;
-
-
             }
         }
     }
@@ -83,44 +71,5 @@ public class Main {
         System.out.println("5. Restock flowers.");
         System.out.println("6. Exit.");
 
-    }
-
-    public static List<String> getData() throws IOException {
-        File file = new File("FlowerShopStock.txt");
-        FileReader fr = new FileReader(file);
-        BufferedReader br = new BufferedReader(fr);
-
-        List<String> lines = new ArrayList<String>();
-        String line = null;
-
-        while ((line = br.readLine()) != null){
-            lines.add(line);
-        }
-
-        return lines;
-    }
-
-    public static ArrayList<Flower> stockToShop(ArrayList<String[]> a){
-
-        ArrayList<Flower> result = new ArrayList<>();
-
-        for (String[] s: a) {
-            if(Shop.pot.contains(s[1])) {
-                for (int i = 0; i < Integer.parseInt(s[0]); i++) {
-                    result.add(new PotFlower(Integer.parseInt(s[2]), s[1]));
-                }
-            }
-            else if(Shop.thorn.contains(s[1])) {
-                for (int i = 0; i < Integer.parseInt(s[0]); i++) {
-                    result.add(new ThornsFlower(Integer.parseInt(s[2]), s[1]));
-                }
-            }
-            else if(Shop.nothorn.contains(s[1])) {
-                for (int i = 0; i < Integer.parseInt(s[0]); i++) {
-                    result.add(new NoThornsFlower(Integer.parseInt(s[2]), s[1]));
-                }
-            }
-        }
-        return result;
     }
 }
