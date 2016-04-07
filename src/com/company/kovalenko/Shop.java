@@ -58,7 +58,9 @@ public class Shop {
     и с данными из того же файла.
     */
     public ArrayList<Flower> restock() throws IOException {
-        File file = new File("restock.txt");
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        File file = new File(s);
         FileInputStream fs = new FileInputStream(file);
         BufferedInputStream bs = new BufferedInputStream(fs);
         BufferedReader br = new BufferedReader(new InputStreamReader(bs, StandardCharsets.UTF_8));
