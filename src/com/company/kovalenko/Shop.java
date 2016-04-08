@@ -69,21 +69,23 @@ public class Shop {
         String line = null;
 
         while ((line = br.readLine()) != null){
-            if(Shop.pot.contains(line.split(" ")[1])) {
-                for (int i = 0; i < Integer.parseInt(line.split(" ")[0]); i++) {
+            if(Shop.pot.contains(line.split(" ")[1]) && (Integer.parseInt(line.split(" ")[2]) <= 3)) {
+                for (int i = 0; i < Integer.parseInt(line.split(" ")[0] ); i++) {
                     restock.add(new PotFlower(Integer.parseInt(line.split(" ")[2]), line.split(" ")[1]));
                 }
             }
-            else if(Shop.thorn.contains(line.split(" ")[1])) {
+            else if(Shop.thorn.contains(line.split(" ")[1]) && (Integer.parseInt(line.split(" ")[2]) <= 3)) {
                 for (int i = 0; i < Integer.parseInt(line.split(" ")[0]); i++) {
                     restock.add(new ThornsFlower(Integer.parseInt(line.split(" ")[2]), line.split(" ")[1]));
                 }
             }
-            else if(Shop.nothorn.contains(line.split(" ")[1])) {
+            else if(Shop.nothorn.contains(line.split(" ")[1]) && (Integer.parseInt(line.split(" ")[2]) <= 3)) {
                 for (int i = 0; i < Integer.parseInt(line.split(" ")[0]); i++) {
                     restock.add(new NoThornsFlower(Integer.parseInt(line.split(" ")[2]), line.split(" ")[1]));
                 }
             }
+            else
+                System.out.println("Invalid data!");
         }
 
         return restock;
