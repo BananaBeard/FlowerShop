@@ -58,6 +58,7 @@ public class Shop {
     и с данными из того же файла.
     */
     public ArrayList<Flower> restock() throws IOException {
+        System.out.println("Enter file name to restock:");
         Scanner sc = new Scanner(System.in);
         String s = sc.nextLine();
         File file = new File(s);
@@ -66,7 +67,7 @@ public class Shop {
         BufferedReader br = new BufferedReader(new InputStreamReader(bs, StandardCharsets.UTF_8));
         ArrayList<Flower> restock = new ArrayList<>();
 
-        String line = null;
+        String line;
 
         while ((line = br.readLine()) != null){
             if(Shop.pot.contains(line.split(" ")[1]) && (Integer.parseInt(line.split(" ")[2]) <= 3)) {
