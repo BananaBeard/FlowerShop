@@ -9,6 +9,9 @@ public class Shop {
     public ArrayList<Flower> flowers = new ArrayList<>();
     public ArrayList<Bouquet> bouquets = new ArrayList<>();
 
+    static int potCount = 0;
+    static int thornsCount = 0;
+    static int noThornsCount = 0;
 
     //Базу цветов я перенес этот класс, чтобы в main'e все было не так запутанно(ну и так как это более логично)
 
@@ -23,6 +26,7 @@ public class Shop {
     * Стартовое заполнение магазина я перенес из main'a в конструктор. В остальном этот метод аналогичен методу
     * пополнения запасов, который описан дальше. Единственное отличие - в этом методе используется FileReader.*/
     public Shop() throws IOException {
+
         File file = new File("FlowerShopStock.txt");
         FileReader fr = new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
@@ -34,22 +38,31 @@ public class Shop {
                 for (int i = 0; i < Integer.parseInt(line.split(" ")[0]); i++) {
                     flowers.add(new PotFlower(Integer.parseInt(line.split(" ")[2]), line.split(" ")[1]));
                 }
-            }
-            else if(Shop.thorn.contains(line.split(" ")[1])) {
+            } else if(Shop.thorn.contains(line.split(" ")[1])) {
                 for (int i = 0; i < Integer.parseInt(line.split(" ")[0]); i++) {
                     flowers.add(new ThornsFlower(Integer.parseInt(line.split(" ")[2]), line.split(" ")[1]));
                 }
-            }
-            else if(Shop.nothorn.contains(line.split(" ")[1])) {
+            } else if(Shop.nothorn.contains(line.split(" ")[1])) {
                 for (int i = 0; i < Integer.parseInt(line.split(" ")[0]); i++) {
                     flowers.add(new NoThornsFlower(Integer.parseInt(line.split(" ")[2]), line.split(" ")[1]));
                 }
             }
         }
+
     }
 
     public void sortFlowers() {
         Collections.sort(flowers, Collections.reverseOrder());
+    }
+
+    public int checkForFlowerCount(String name){
+
+        int count = 0;
+        for (Flower flower: flowers) {
+            if (flower.getName().equals(name))
+                count++;
+        }
+        return count;
     }
 
     /*Этот метод аналогичен тому, которым я раньше заполнял магазин, но все перенесено в один метод и читается намного проще.
@@ -58,34 +71,33 @@ public class Shop {
     и с данными из того же файла.
     */
     public ArrayList<Flower> restock() throws IOException {
+
+        ArrayList<Flower> restock = new ArrayList<>();
         System.out.println("Enter file name to restock:");
         Scanner sc = new Scanner(System.in);
         String s = sc.nextLine();
         File file = new File(s);
+
         FileInputStream fs = new FileInputStream(file);
         BufferedInputStream bs = new BufferedInputStream(fs);
         BufferedReader br = new BufferedReader(new InputStreamReader(bs, StandardCharsets.UTF_8));
-        ArrayList<Flower> restock = new ArrayList<>();
 
         String line;
 
-        while ((line = br.readLine()) != null){
-            if(Shop.pot.contains(line.split(" ")[1]) && (Integer.parseInt(line.split(" ")[2]) <= 3)) {
-                for (int i = 0; i < Integer.parseInt(line.split(" ")[0] ); i++) {
+        while ((line = br.readLine()) != null) {
+            if (Shop.pot.contains(line.split(" ")[1]) && (Integer.parseInt(line.split(" ")[2]) <= 3)) {
+                for (int i = 0; i < Integer.parseInt(line.split(" ")[0]); i++) {
                     restock.add(new PotFlower(Integer.parseInt(line.split(" ")[2]), line.split(" ")[1]));
                 }
-            }
-            else if(Shop.thorn.contains(line.split(" ")[1]) && (Integer.parseInt(line.split(" ")[2]) <= 3)) {
+            } else if (Shop.thorn.contains(line.split(" ")[1]) && (Integer.parseInt(line.split(" ")[2]) <= 3)) {
                 for (int i = 0; i < Integer.parseInt(line.split(" ")[0]); i++) {
                     restock.add(new ThornsFlower(Integer.parseInt(line.split(" ")[2]), line.split(" ")[1]));
                 }
-            }
-            else if(Shop.nothorn.contains(line.split(" ")[1]) && (Integer.parseInt(line.split(" ")[2]) <= 3)) {
+            } else if (Shop.nothorn.contains(line.split(" ")[1]) && (Integer.parseInt(line.split(" ")[2]) <= 3)) {
                 for (int i = 0; i < Integer.parseInt(line.split(" ")[0]); i++) {
                     restock.add(new NoThornsFlower(Integer.parseInt(line.split(" ")[2]), line.split(" ")[1]));
                 }
-            }
-            else
+            } else
                 System.out.println("Invalid data!");
         }
 

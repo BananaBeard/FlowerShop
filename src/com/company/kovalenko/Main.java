@@ -9,8 +9,13 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Shop shop = null;
 
-        Shop shop = new Shop();
+        try {
+            shop = new Shop();
+        } catch (FileNotFoundException exception) {
+            exception.printStackTrace();
+        }
         boolean exit = false;
 
         while(!exit) {
@@ -31,26 +36,40 @@ public class Main {
                     System.out.println();
                     break;
                 case 3:
-                    System.out.println("Tell the numbers of each flower type(1 - thorns, 2 - no thorns)");
+                    /*System.out.println("Tell the numbers of each flower type(1 - thorns, 2 - no thorns)");
                     int t = sc.nextInt();
                     int n = sc.nextInt();
-                    Bouquet bq = new Bouquet(t, n, shop.flowers);
-                    shop.bouquets.add(bq);
-                    shop.flowers.removeAll(bq.content);
-                    System.out.println("Your bouquet is ready.");
+                    try {
+                        Bouquet bq = new Bouquet(t, n, shop.flowers);
+                        shop.bouquets.add(bq);
+                        shop.flowers.removeAll(bq.content);
+                        System.out.println("Your bouquet is ready.");
+                    } catch (IllegalArgumentException exception) {
+                        exception.printStackTrace();
+                    }
                     br.readLine();
                     System.out.println();
-                    break;
+                    break;*/
                 case 4:
-                    for (Flower f : shop.bouquets.get(0).content) {
-                        System.out.println(f);
+                    try {
+                        for (Flower f : shop.bouquets.get(0).content) {
+                            System.out.println(f);
+                        }
+                    } catch (IndexOutOfBoundsException exception){
+                        exception.printStackTrace();
                     }
                     br.readLine();
                     System.out.println();
                     break;
                 case 5:
-                    shop.flowers.addAll(shop.restock());
-                    System.out.println("Shop is restocked.");
+                    try {
+                        shop.flowers.addAll(shop.restock());
+                        System.out.println("Shop is restocked.");
+                    }
+                    catch (FileNotFoundException exception) {
+                        System.err.println("Wrong file name!");
+                        exception.printStackTrace();
+                    }
                     br.readLine();
                     System.out.println();
                     break;
