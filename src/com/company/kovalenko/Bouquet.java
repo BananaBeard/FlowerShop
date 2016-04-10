@@ -14,7 +14,7 @@ public class Bouquet {
                         if (f.getName().equals(order.getfName()))
                             content.add(f);
                     }
-                } else System.err.println("Sorry, but we don't have enough flowers to make your bouquet. " +
+                } else System.err.println("Sorry, but we don't have enough flowers to make your bouquet. " + "\n" +
                         "You can choose smth. else from our stock.");
             } else throw new RequestedFlowerNotInListException();
         }
