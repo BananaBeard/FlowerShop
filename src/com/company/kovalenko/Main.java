@@ -10,6 +10,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Shop shop = null;
+        int orderCount = 1;
 
         try {
             shop = new Shop();
@@ -54,13 +55,27 @@ public class Main {
                     } catch (RequestedFlowerNotInListException exception) {
                         exception.printStackTrace();
                         System.err.println("Sorry, but we have no flowers with this name." + "\n" +
-                        "You can make   order request for our provider to buy this." + "\n" +
+                        "You can make an order request for our provider to buy this." + "\n" +
                         "Are you interested int that? ( y / n )");
                         String answ = br.readLine();
                         if (answ.equals("y")){
-
+                            boolean isOrdered = false;
+                            File file = null;
+                            while (!isOrdered){
+                                file = new File("NotFoundOrder"+ orderCount +".txt");
+                                if (!file.exists()) {
+                                    file.createNewFile();
+                                    isOrdered = true;
+                                }
+                                else
+                                    orderCount++;
+                            }
+                            FileWriter fr = new FileWriter(file);
+                            fr.write("On " + new java.util.Date ().toString () + " customer ordered flower called " + exception.getName());
+                            fr.flush();
+                            System.err.println("Thanks, your order will be processed soon!");
                         } else{
-
+                            System.out.println("Ok, bye. See you next time.");
                         }
                     }
                     br.readLine();

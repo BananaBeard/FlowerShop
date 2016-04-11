@@ -21,7 +21,7 @@ public class Bouquet {
                     }
                 } else System.err.println("Sorry, but we don't have enough flowers to make your bouquet. " + "\n" +
                         "You can choose smth. else from our stock.");
-            } else throw new RequestedFlowerNotInListException();
+            } else throw new RequestedFlowerNotInListException("Flower called " + order.getfName() + " not found.", order.getfName());
         }
 
     }
