@@ -6,13 +6,18 @@ public class Bouquet {
     public ArrayList<Flower> content;
 
     public Bouquet(ArrayList<Order> orders, Shop shop) throws RequestedFlowerNotInListException{
-
+        content = new ArrayList<>();
         for (Order order: orders) {
             if ((Shop.thorn.contains(order.getfName())) || (Shop.nothorn.contains(order.getfName()))) {
-                if (shop.checkForFlowerCount(order.getfName()) <= order.getCount()) {
+                if (shop.checkForFlowerCount(order.getfName()) >= order.getCount()) {
+                    int c = 0;
                     for (Flower f: shop.flowers) {
-                        if (f.getName().equals(order.getfName()))
+                        if (f.getName().equals(order.getfName())){
                             content.add(f);
+                            c++;
+                            if (c==order.getCount())
+                                break;
+                        }
                     }
                 } else System.err.println("Sorry, but we don't have enough flowers to make your bouquet. " + "\n" +
                         "You can choose smth. else from our stock.");

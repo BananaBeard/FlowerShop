@@ -36,20 +36,36 @@ public class Main {
                     System.out.println();
                     break;
                 case 3:
-                    /*System.out.println("Tell the numbers of each flower type(1 - thorns, 2 - no thorns)");
-                    int t = sc.nextInt();
-                    int n = sc.nextInt();
                     try {
-                        Bouquet bq = new Bouquet(t, n, shop.flowers);
+                        ArrayList<Order> orders = new ArrayList<>();
+                        System.out.println("How many different flowers you want to byu?");
+                        int n = sc.nextInt();
+                        for (int i = 0; i < n; i++) {
+                            System.out.println("Tell the number of flower #" + (i+1));
+                            int count = sc.nextInt();
+                            System.out.println("Tell the name of flower #" + (i+1));
+                            String name = br.readLine();
+                            orders.add(new Order(name, count));
+                        }
+                        Bouquet bq = new Bouquet(orders,shop);
                         shop.bouquets.add(bq);
                         shop.flowers.removeAll(bq.content);
-                        System.out.println("Your bouquet is ready.");
-                    } catch (IllegalArgumentException exception) {
+                        System.out.println("Your bouquet is ready");
+                    } catch (RequestedFlowerNotInListException exception) {
                         exception.printStackTrace();
+                        System.err.println("Sorry, but we have no flowers with this name." + "\n" +
+                        "You can make order request for our provider to buy this." + "\n" +
+                        "Are you interested int that? ( y / n )");
+                        String answ = br.readLine();
+                        if (answ.equals("y")){
+
+                        } else{
+
+                        }
                     }
                     br.readLine();
                     System.out.println();
-                    break;*/
+                    break;
                 case 4:
                     try {
                         for (Flower f : shop.bouquets.get(0).content) {

@@ -4,7 +4,7 @@ public class Order {
     private int count;
     private String fName;
 
-    public Order(int count, String fName) {
+    public Order(String fName, int count) {
         this.count = count;
         this.fName = fName;
     }
