@@ -38,7 +38,7 @@ public class Main {
                 case 3:
                     try {
                         ArrayList<Order> orders = new ArrayList<>();
-                        System.out.println("How many different flowers you want to byu?");
+                        System.out.println("How many different flowers you want to buy?");
                         int n = sc.nextInt();
                         for (int i = 0; i < n; i++) {
                             System.out.println("Tell the number of flower #" + (i+1));
@@ -54,7 +54,7 @@ public class Main {
                     } catch (RequestedFlowerNotInListException exception) {
                         exception.printStackTrace();
                         System.err.println("Sorry, but we have no flowers with this name." + "\n" +
-                        "You can make order request for our provider to buy this." + "\n" +
+                        "You can make   order request for our provider to buy this." + "\n" +
                         "Are you interested int that? ( y / n )");
                         String answ = br.readLine();
                         if (answ.equals("y")){
