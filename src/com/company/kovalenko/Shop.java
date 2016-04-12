@@ -12,6 +12,7 @@ public class Shop {
     static int potCount = 0;
     static int thornsCount = 0;
     static int noThornsCount = 0;
+    static int orderCount = 1;
 
     //Базу цветов я перенес этот класс, чтобы в main'e все было не так запутанно(ну и так как это более логично)
 
@@ -102,5 +103,26 @@ public class Shop {
         }
 
         return restock;
+    }
+
+    public ArrayList<Flower> buyPotFLowers(Order order) throws RequestedFlowerNotInListException {
+        ArrayList<Flower> content = new ArrayList<>();
+
+        if (Shop.pot.contains(order.getfName())) {
+            if (checkForFlowerCount(order.getfName()) >= order.getCount()) {
+                int c = 0;
+                for (Flower f: flowers) {
+                    if (f.getName().equals(order.getfName())){
+                        content.add(f);
+                        c++;
+                        if (c==order.getCount())
+                            break;
+                    }
+                }
+            } else System.err.println("Sorry, but we don't have enough flowers to make your bouquet. " + "\n" +
+                    "You can choose smth. else from our stock.");
+        } else throw new RequestedFlowerNotInListException("Flower called " + order.getfName() + " not found.", order.getfName());
+        flowers.removeAll(content);
+        return content;
     }
 }
