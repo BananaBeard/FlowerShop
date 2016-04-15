@@ -4,11 +4,12 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    private static BufferedReader br = null;
 
     public static void main(String[] args) throws IOException {
 
         Scanner sc = new Scanner(System.in);
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        br = new BufferedReader(new InputStreamReader(System.in));
         Shop shop = null;
 
         try {
@@ -36,25 +37,33 @@ public class Main {
                     System.out.println();
                     break;
                 case 3:
-                    try {
-                        ArrayList<Order> orders = new ArrayList<>();
-                        System.out.println("How many different flowers you want to buy?");
-                        int n = sc.nextInt();
-                        for (int i = 0; i < n; i++) {
-                            System.out.println("Tell the number of flower #" + (i+1));
-                            int count = sc.nextInt();
-                            System.out.println("Tell the name of flower #" + (i+1));
-                            String name = br.readLine();
+                    boolean isNeeded = false;
+                    ArrayList<Order> orders = new ArrayList<>();
+                    ArrayList<String> notInStock = new ArrayList<>();
+                    System.out.println("How many different flowers you want to buy?");
+                    int n = sc.nextInt();
+                    for (int i = 0; i < n; i++) {
+                        System.out.println("Tell the number of flower #" + (i + 1));
+                        int count = sc.nextInt();
+                        System.out.println("Tell the name of flower #" + (i + 1));
+                        String name = br.readLine();
+
+                        try {
                             orders.add(new Order(name, count));
+                        } catch (RequestedFlowerNotInListException exception) {
+                            notInStock.add(exception.getName());
+                            isNeeded = true;
                         }
-                        Bouquet bq = new Bouquet(orders,shop);
+                    }
+                    if (isNeeded)
+                        makeNotInListOrder(notInStock);
+                    else {
+                        Bouquet bq = new Bouquet(orders, shop);
                         shop.bouquets.add(bq);
                         shop.flowers.removeAll(bq.content);
                         System.out.println("Your bouquet is ready");
-                    } catch (RequestedFlowerNotInListException exception) {
-                        exception.printStackTrace();
-                        makeOrder(br, exception);
                     }
+                    System.out.println("Bye. Thanks for coming!");
                     br.readLine();
                     System.out.println();
                     break;
@@ -79,11 +88,12 @@ public class Main {
                         System.out.println("Thanks for coming! Here is your flower.");
                     } catch (RequestedFlowerNotInListException exception){
                         exception.printStackTrace();
-                        makeOrder(br, exception);
+                        //keOrder(br, exception);
                     }
                     break;
                 case 6:
                     try {
+
                         shop.flowers.addAll(shop.restock());
                         System.out.println("Shop is restocked.");
                     }
@@ -114,9 +124,12 @@ public class Main {
 
     }
 
-    public static void makeOrder(BufferedReader br, RequestedFlowerNotInListException exception) throws IOException{
-        System.err.println("Sorry, but we have no flowers with this name." + "\n" +
-                "You can make an order request for our provider to buy this." + "\n" +
+    public static void makeNotInListOrder(ArrayList<String> toOrder) throws IOException{
+        br = new BufferedReader(new InputStreamReader(System.in));
+        System.err.println("Sorry, but we have no flowers with these names:" + "\n");
+        toOrder.forEach(System.out::println);
+        System.out.println();
+        System.out.println("You can make an order request for our provider to buy this." + "\n" +
                 "Are you interested int that? ( y / n )");
         String answ = br.readLine();
         if (answ.equals("y")){
@@ -132,11 +145,12 @@ public class Main {
                     Shop.orderCount++;
             }
             FileWriter fr = new FileWriter(file);
-            fr.write("On " + new java.util.Date ().toString () + " customer ordered flower called " + exception.getName() + ".");
-            fr.flush();
-            System.err.println("Thanks, your order will be processed soon!");
-        } else{
-            System.out.println("Ok, bye. See you next time.");
+            for (String s: toOrder) {
+                fr.write("On " + new java.util.Date ().toString () + " customer ordered flower called " + s + "." + System.lineSeparator());
+                fr.flush();
+            }
+
+            System.out.println("Thanks, your order will be processed soon!");
         }
     }
 }
