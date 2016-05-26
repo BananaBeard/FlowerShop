@@ -18,6 +18,7 @@ public class Main {
             exception.printStackTrace();
         }
         boolean exit = false;
+        boolean aaa;
 
         while(!exit) {
 
